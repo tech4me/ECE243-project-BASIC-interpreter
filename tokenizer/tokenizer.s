@@ -1,4 +1,5 @@
-.include "tokens.h"
+.include "tokenids.h"
+
 .data
 PRINT_STRING_BUF:
 .skip MAX_STRING_LENGTH
@@ -8,12 +9,14 @@ PRINT_STRING_BUF:
 .global get_next_token
 #function: determine the type of the next token
 #return: r2: the token type
-subi sp, sp, 20
+get_next_token:
+subi sp, sp, 24
 stw r16, 0(sp)
 stw r17, 4(sp)
 stw r18, 8(sp)
 stw r19, 12(sp)
-stw ra, 16(ra)
+stw r20, 16(sp)
+stw ra, 20(sp)
 
 movia r18, ptr
 movia r19, next_ptr
@@ -27,24 +30,25 @@ mov r4, r17
 call isdigit
 beq r2, r0, not_a_number
 #if we are looking at a number
-mov r3, r0
+mov r20, r0
 ldw r17, 0(r18)
 number_for_loop:
-bge r3, r2, number_length_too_long
-addi r3, r3, 1
+movi r2, MAX_NUMBER_LENGTH
+bge r20, r2, number_length_too_long
+addi r20, r20, 1
 
-add r4, r17, r3
+add r4, r17, r20
 ldb r4, 0(r4)
 call isdigit
 bne r2, r0, number_for_loop
 
-add r16, r17, r3
+add r16, r17, r20
 stw r16, 0(r19) #nextptr = ptr + i
 movi r2, NUM_TOKEN
 br get_next_token_end
 
 #number_continue:
-#add r4, r17, r3
+#add r4, r17, r20
 #ldb r4, 0(r4)
 #call isdigit
 #beq r2, r0, number_for_loop
@@ -57,7 +61,7 @@ br get_next_token_end
 
 not_a_number:
 call singlechar
-bne r2, r0, not_a_singlechar
+beq r2, r0, not_a_singlechar
 #if we are looing at a singlechar
 ldw r16, 0(r18)
 addi r16, r16, 1
@@ -83,21 +87,52 @@ br get_next_token_end
 not_a_string:
 #to see if this is a keyword token
 movia r16, KEYWORD_TOKEN
-movia r18, KEYWORD_ERROR #the end condition of the for loop
+movia r20, KEYWORD_ERROR #the end condition of the for loop
 keyword_loop:
-beq r16, r18, get_next_token_end
-ldw r17, 4(r16) #load the token keyword
-addi r16, r16, 2 #move r16 to point to the next string and token pair
+beq r16, r20, not_keyword
+ldw r17, 0(r16)
+mov r4, r17 #calculate the length of the current token string
+call strlen
+mov r6, r2 #pass the length as paramter to strncmp
+ldw r4, 0(r18) #put ptr to r4 for strncmp
+mov r5, r17 #pointer to string token
+call strncmp
+bne r2, r0, try_next_string_token
+mov r4, r17 #calculate the length of the current token string
+call strlen
+ldw r17, 0(r18)
+add r2, r2, r17
+stw r2, 0(r19)
+ldw r2, 4(r16) #load the return token into r2
+br get_next_token_end
 
+try_next_string_token:
+addi r16, r16, 8 #move r16 to point to the next string and token pair
 br keyword_loop
+
+not_keyword:
+ldw r16, 0(r18) #ptr
+ldb r17, 0(r16) #*ptr
+movi r2, 'A'
+blt r17, r2, not_variable
+movi r2, 'Z'
+bgt r17, r2, not_variable
+addi r2, r16, 1
+stw r2, 0(r19)
+movi r2, VARIABLE_TOKEN
+br get_next_token_end
+
+not_variable:
+mov r2, r0 #error token if doesn't go into any of the case
 
 get_next_token_end:
 ldw r16, 0(sp)
 ldw r17, 4(sp)
 ldw r18, 8(sp)
 ldw r19, 12(sp)
-ldw ra, 16(sp)
-addi sp, sp, 20
+ldw r20, 16(sp)
+ldw ra, 20(sp)
+addi sp, sp, 24
 ret
 
 .global tokenize_next
@@ -125,7 +160,7 @@ br ignore_white_space
 
 ready_for_token:
 stw r2, 0(r16) #save new ptr
-#call get_next_token
+call get_next_token
 movia r16, current_token
 stw r2, 0(r16) #update new current token
 

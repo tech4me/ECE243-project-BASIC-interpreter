@@ -1,43 +1,4 @@
-.equ ERROR_TOKEN, 0
-.equ EOF_TOKEN, 1
-.equ NUM_TOKEN, 2
-.equ STRING_TOKEN, 3
-.equ VARIABLE_TOKEN, 4
-
-.equ COMMA_TOKEN, 5
-.equ SEMICOLON_TOKEN, 6
-.equ PLUS_TOKEN, 7
-.equ MINUS_TOKEN, 8
-.equ AND_TOKEN, 9
-.equ OR_TOKEN, 10
-.equ ASTR_TOKEN, 11
-.equ SLASH_TOKEN, 12
-.equ MOD_TOKEN, 13
-.equ HASH_TOKEN, 14
-.equ LEFTPAREN_TOKEN, 15
-.equ RIGHTPAREN_TOKEN, 16
-.equ LT_TOKEN, 17
-.equ GT_TOKEN, 18
-.equ EQ_TOKEN, 19
-.equ CR_TOKEN, 20
-
-.equ LET_TOKEN, 21
-.equ PRINT_TOKEN, 22
-.equ IF_TOKEN, 23
-.equ THEN_TOKEN, 24
-.equ ELSE_TOKEN, 25
-.equ FOR_TOKEN, 26
-.equ TO_TOKEN, 27
-.equ NEXT_TOKEN, 28
-.equ GOTO_TOKEN, 29
-.equ GOSUB_TOKEN, 30
-.equ RETURN_TOKEN, 31
-.equ CALL_TOKEN, 32
-.equ REM_TOKEN, 33
-.equ PEEK_TOKEN, 34
-.equ POKE_TOKEN, 35
-.equ END_TOKEN, 36
-
+.include "tokenids.h"
 .data
 STR_LET:
 .string "LET"
@@ -91,80 +52,103 @@ STR_ERROR:
 .string ""
 
 .data
+.align 2
+.global KEYWORD_TOKEN
 KEYWORD_TOKEN:
 
+.global KEYWORD_LET
 KEYWORD_LET:
 .word STR_LET
 .word LET_TOKEN
 
+.global KEYWORD_PRINT
 KEYWORD_PRINT:
 .word STR_PRINT
 .word PRINT_TOKEN
 
+.global KEYWORD_IF
 KEYWORD_IF:
 .word STR_IF
 .word IF_TOKEN
 
+.global KEYWORD_THEN
 KEYWORD_THEN:
 .word STR_THEN
 .word THEN_TOKEN
 
+.global KEYWORD_ELSE
 KEYWORD_ELSE:
 .word STR_ELSE
 .word ELSE_TOKEN
 
+.global KEYWORD_FOR
 KEYWORD_FOR:
 .word STR_FOR
 .word FOR_TOKEN
 
+.global KEYWORD_TO
 KEYWORD_TO:
 .word STR_TO
 .word TO_TOKEN
 
+.global KEYWORD_NEXT
 KEYWORD_NEXT:
 .word STR_NEXT
 .word NEXT_TOKEN
 
+.global KEYWORD_GOTO
 KEYWORD_GOTO:
 .word STR_GOTO
 .word GOTO_TOKEN
 
+.global KEYWORD_GOSUB
 KEYWORD_GOSUB:
 .word STR_GOSUB
 .word GOSUB_TOKEN
 
+.global KEYWORD_RETURN
 KEYWORD_RETURN:
 .word STR_RETURN
 .word RETURN_TOKEN
 
+.global KEYWORD_CALL
 KEYWORD_CALL:
 .word STR_CALL
 .word CALL_TOKEN
 
+.global KEYWORD_REM
 KEYWORD_REM:
 .word STR_REM
 .word REM_TOKEN
 
+.global KEYWORD_PEEK
 KEYWORD_PEEK:
 .word STR_PEEK
 .word PEEK_TOKEN
 
+.global KEYWORD_POKE
 KEYWORD_POKE:
 .word STR_POKE
 .word POKE_TOKEN
 
+.global KEYWORD_END
 KEYWORD_END:
 .word STR_END
 .word END_TOKEN
 
+.global KEYWORD_ERROR
 KEYWORD_ERROR:
 .word STR_ERROR
 .word ERROR_TOKEN
 
-#static variable
+.global ptr
 ptr:
 .word PROGRAM_BUF
+
+.global next_ptr
 next_ptr:
 .word PROGRAM_BUF
+
+.global current_token
 current_token:
 .word STRING_TOKEN

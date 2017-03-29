@@ -1,5 +1,4 @@
-.include "tokens.h"
-
+.include "tokenids.h"
 .text
 .global singlechar
 #function: determine what kind of char token is ptr pointering to
@@ -9,7 +8,8 @@ stw r16, 0(sp)
 stw r17, 4(sp)
 
 movia r16, ptr
-stb r16, 0(r16)
+ldw r16, 0(r16)
+ldb r16, 0(r16)
 movi r17, '\n'
 beq r16, r17, RET_CR
 movi r17, ','

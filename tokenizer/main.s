@@ -1,15 +1,24 @@
 .data
 .global PROGRAM_BUF
 PROGRAM_BUF:
-.string "\"abc123\""
+.string "10000 FOR A \"abc\" \n IF"
 .skip 65536
+TEST_BUF:
+.string "abcfff"
 
 .text
 .global _start
 _start:
 movia sp, 0x03FFFFFC
-movia r4, PROGRAM_BUF
-call strlen
+call tokenize_next
+call tokenize_next
+call tokenize_next
+call tokenize_next
+call tokenize_next
+call tokenize_next
+call tokenize_next
+call tokenize_next
+call tokenize_next
 end:
 br end
 .end
