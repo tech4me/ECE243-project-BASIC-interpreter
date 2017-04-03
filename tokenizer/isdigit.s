@@ -19,4 +19,3 @@ exit:
 ldw r16, 0(sp)
 addi sp, sp, 4
 ret
-.end

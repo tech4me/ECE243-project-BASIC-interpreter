@@ -22,4 +22,3 @@ ret
 ret_0:
 mov r2, r0
 ret
-.end

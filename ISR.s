@@ -34,14 +34,23 @@ stw r29, 100(sp)
 
 stw r31, 104(sp)
 
-#see what caused IRQ
+#see if PS2 caused IRQ
 rdctl et, ctl4
 andi et, et, 0x80 #IRQ7
 bne et, r0, IRQ7
+
+#see if TIMER caused IRQ
+rdctl et, ctl4
+andi et, et, 1 #IRQ0
+bne et, r0, IRQ0
 br iEND
 
 IRQ7:
 call PS2_ISR
+br iEND
+
+IRQ0:
+call Timer_ISR
 
 iEND:
 #restore all register
@@ -78,3 +87,5 @@ ldw r31, 104(sp)
 addi sp, sp, 108
 subi ea, ea, 4
 eret
+
+.end

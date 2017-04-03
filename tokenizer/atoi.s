@@ -28,4 +28,3 @@ ldw r18, 8(sp)
 ldw ra, 12(sp)
 addi sp, sp, 16
 ret
-.end

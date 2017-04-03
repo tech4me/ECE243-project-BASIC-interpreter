@@ -12,4 +12,3 @@ br for_loop
 end_loop:
 sub r2, r2, r4
 ret
-.end

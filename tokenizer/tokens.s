@@ -143,11 +143,11 @@ KEYWORD_ERROR:
 
 .global ptr
 ptr:
-.word PROGRAM_BUF
+.word INPUT_BUF
 
 .global next_ptr
 next_ptr:
-.word PROGRAM_BUF
+.word INPUT_BUF
 
 .global current_token
 current_token:

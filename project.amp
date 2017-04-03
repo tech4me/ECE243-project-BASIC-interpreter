@@ -10,10 +10,15 @@
     <program>
         <type>Assembly Program</type>
         <source_files>
-            <source_file filepath="true">ISR.s</source_file>
-            <source_file filepath="true">PS2_ISR.s</source_file>
-            <source_file filepath="true">PS2_Init.s</source_file>
             <source_file filepath="true">main.s</source_file>
+            <source_file filepath="true">tokenizer/atoi.s</source_file>
+            <source_file filepath="true">tokenizer/isdigit.s</source_file>
+            <source_file filepath="true">tokenizer/singlechar.s</source_file>
+            <source_file filepath="true">tokenizer/strchar.s</source_file>
+            <source_file filepath="true">tokenizer/strlen.s</source_file>
+            <source_file filepath="true">tokenizer/strncmp.s</source_file>
+            <source_file filepath="true">tokenizer/tokenizer.s</source_file>
+            <source_file filepath="true">tokenizer/tokens.s</source_file>
         </source_files>
         <options>
             <start_symbol>_start</start_symbol>
