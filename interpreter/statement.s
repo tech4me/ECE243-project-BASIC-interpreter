@@ -1,8 +1,12 @@
+.include "defines.h"
 .text
 .global statement
 statement:
-subi sp, sp, 4
+subi sp, sp, 12
 stw ra, 0(sp)
+stw r16, 4(sp)
+stw r17, 8(sp)
+
 movia r16, current_token
 ldw r16, 0(r16)
 movi r17, LET_TOKEN
@@ -31,7 +35,9 @@ br DEFAULT
 
 statement_end:
 ldw ra, 0(sp)
-addi sp, sp, 4
+ldw r16, 4(sp)
+ldw r17, 8(sp)
+addi sp, sp, 12
 ret
 
 LET:
@@ -44,6 +50,10 @@ br statement_end
 
 IF:
 #call if_statement
+br statement_end
+
+FOR:
+#call for_statement
 br statement_end
 
 NEXT:
@@ -76,4 +86,7 @@ br statement_end
 
 DEFAULT:
 #call unrecognized_token
+#########################
+#########################
+#########################
 br statement_end

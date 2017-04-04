@@ -1,4 +1,4 @@
-.include "tokenids.h"
+.include "defines.h"
 .data
 STR_LET:
 .string "LET"

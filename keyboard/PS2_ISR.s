@@ -19,7 +19,7 @@ beq r9, r10, E0_READ_MORE #should read more
 movi r10, 0xF0
 beq r9, r10, F0_IGNORE #should ignore the rest
 #The rest can directly save
-movia r10, INPUT_BUF_PTR 
+movia r10, INPUT_BUF_PTR
 ldw r10, 0(r10) #r10 gets the first address in INPUT_BUF_PTR
 movia r11, CHAR_COUNT
 ldw r12, 0(r11) #r12 gets the count 

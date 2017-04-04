@@ -1,11 +1,10 @@
-.include "tokenids.h"
+.include "defines.h"
 
 .data
 PRINT_STRING_BUF:
 .skip MAX_STRING_LENGTH
+
 .text
-.equ MAX_STRING_LENGTH, 40
-.equ MAX_NUMBER_LENGTH, 6
 .global get_next_token
 #function: determine the type of the next token
 #return: r2: the token type
@@ -246,6 +245,7 @@ ldb r2, 0(r2)
 subi r2, r2, 'a'
 ret
 
+.global is_tokenize_finished
 #funtion: determine if tokenizer is finished by checking corrent token or the character to read
 is_tokenize_finished:
 subi sp, sp, 4
@@ -267,4 +267,23 @@ movi r2, 1
 is_tokenize_finished_end:
 ldw r16, 0(sp)
 addi sp, sp, 4
+ret
+
+.global tokenize_num
+#function: return a integer number for the number string @ current ptr position 
+tokenize_num:
+subi sp, sp, 4
+stw ra, 0(sp)
+movia r4, ptr
+ldw r4, 0(r4)
+call atoi
+ldw ra, 0(sp)
+addi sp, sp, 4
+ret
+
+.global tokenize_pos
+#function: return ptr
+tokenize_pos:
+movia r2, ptr
+ldw r2, 0(r2)
 ret

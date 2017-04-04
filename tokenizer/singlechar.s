@@ -1,4 +1,4 @@
-.include "tokenids.h"
+.include "defines.h"
 .text
 .global singlechar
 #function: determine what kind of char token is ptr pointering to

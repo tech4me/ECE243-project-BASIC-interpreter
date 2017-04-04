@@ -1,6 +1,9 @@
 .equ ADDR_VGA, 0x08000000
 .equ ADDR_CHAR, 0x09000000
 
+#.section .data
+#ASCII_String: .asciz "hi"
+
 .global VGA_DISPLAY  
 .text
 VGA_DISPLAY:
@@ -30,24 +33,46 @@ VGA_DISPLAY:
   ldw r4, 0(r4) #r4 get the first address in INPUT_BUF_PTR
   
 VGA_Loop:
+  #subi sp, sp, 4 
+  #stw ra, 0(sp)
+  
   ldb r20, 0(r4)
   beq r0, r20, Done_Display #no ASCII to display in the memory
                             #or r4 points to the null character in the INPUT_BUF
   movi r5, 0x0D	#check if ENTER key			
   beq r20, r5, ENTER 
+  
+  movi r18, 0x050 #r18 = 80
+  beq r16, r18, Move_to_Nextline #if x = 80, move to next line
  
   call Write_Char
 
   addi r16, r16, 0b1 # x++
-  movi r18, 0x050 #r18 = 80
-  beq r16, r18, Move_to_Nextline #if x=80, move to next line
+ 
   br VGA_Loop
   
 
 Move_to_Nextline:
+
+  ldb r5,0(r4) #r5 now has the curr char in the INPUT_BUF
+  
   addi r17, r17, 0b1 # y++
   mov r16, r0 # x = 0
-  ret
+  
+  movi r7, 0x080 #r7 = 128
+  mul r7, r7, r17 #r7 = 128*y
+  add r7, r7, r16 #r7 = x + 128*y
+  add r6, r3, r7 #r6 = 0x09000000 + x + 128*y //the address for location (x,y) 
+  
+  stbio r5, 0(r6)#store curr char at location (x,y)
+  addi r4, r4, 0b1 #r4 now points to next char in INPUT_BUF
+  addi r6, r6, 1 #r6 now points to curr blinking position
+
+  movia r7, CURSOR_POS
+  stw r6, 0(r7) #store new curr blinking position to CURSOR_POS
+  addi r16, r16, 0b1 # x++
+  br VGA_Loop
+  
   
 Write_Char:
 
@@ -76,10 +101,13 @@ ENTER:
   add r7, r7, r16 #r7 = x + 128*y
   add r6, r3, r7 #r6 = 0x09000000 + x + 128*y //the address for location (x,y) 
   movia r7, CURSOR_POS
+  ldw r20, 0(r7) #r20 now gets the curr blinking position
+  movi r5, 32 #char: space 
+  stbio r5, 0(r20) #store a space char at curr blinking position
   stw r6, 0(r7) #store new curr blinking position to CURSOR_POS
   br VGA_Loop
   #should not print ENTER on VGA?
-  ret
+  #ret
 
   
 BKSP_TO_LAST_LINE:
