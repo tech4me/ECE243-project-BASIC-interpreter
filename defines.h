@@ -25,7 +25,7 @@
 .equ LT_TOKEN, 17
 .equ GT_TOKEN, 18
 .equ EQ_TOKEN, 19
-.equ CR_TOKEN, 20
+.equ LF_TOKEN, 20
 
 .equ LET_TOKEN, 21
 .equ PRINT_TOKEN, 22

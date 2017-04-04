@@ -15,7 +15,7 @@ CHAR_COUNT:
 
 .global INPUT_BUF
 INPUT_BUF:
-.string "10 FOR A = 0 TO 10\n"
+.string "10 FOR A = 0 TO 10\n20 NEXT A"
 .skip 4800 #Space left for input buffer
 
 .global OUTPUT_BUF_PTR
@@ -35,10 +35,8 @@ DEBUG_BUF:
 _start:
 movia sp, 0x03FFFFFC #Reset stack pointer
 call Init
-call get_next_token
-movia r4, current_token
-stw r2, 0(r4)
-call line_statement
+movia r4, INPUT_BUF
+call run
 end:
 br end
 .end

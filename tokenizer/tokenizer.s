@@ -169,7 +169,7 @@ bne r2, r3, tokenize_next_end #if not REM keep going
 
 #go through comments until the final \n
 movia r17, next_ptr
-LOOP_UNTIL_CR:
+LOOP_UNTIL_LF:
 ldw r16, 0(r17)
 ldb r16, 0(r16)
 movi r3, '\n'
@@ -179,7 +179,7 @@ bne r2, r0, rem_get_next_token
 ldw r16, 0(r17)
 addi r16, r16, 1
 stw r16, 0(r17)
-br LOOP_UNTIL_CR
+br LOOP_UNTIL_LF
 
 rem_get_next_token:
 call tokenize_next
@@ -286,4 +286,19 @@ ret
 tokenize_pos:
 movia r2, ptr
 ldw r2, 0(r2)
+ret
+
+.global tokenize_goto
+#function: goto a specifc line also used in init
+#paramter: r4: pointer to the program line
+tokenize_goto:
+subi sp, sp, 4
+stw ra, 0(sp)
+movia r8, ptr
+stw r4, 0(r8) #ptr = r4
+call get_next_token
+movia r8, current_token
+stw r2, 0(r8)
+ldw ra, 0(sp)
+addi sp, sp, 4
 ret

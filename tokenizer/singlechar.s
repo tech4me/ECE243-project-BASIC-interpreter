@@ -11,7 +11,7 @@ movia r16, ptr
 ldw r16, 0(r16)
 ldb r16, 0(r16)
 movi r17, '\n'
-beq r16, r17, RET_CR
+beq r16, r17, RET_LF
 movi r17, ','
 beq r16, r17, RET_COMMA
 movi r17, ';'
@@ -44,8 +44,8 @@ movi r17, '='
 beq r16, r17, RET_EQ
 br RET_0
 
-RET_CR:
-movi r2, CR_TOKEN
+RET_LF:
+movi r2, LF_TOKEN
 br end
 
 RET_COMMA:
