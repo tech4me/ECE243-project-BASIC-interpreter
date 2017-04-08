@@ -45,7 +45,7 @@ LET:
 br statement_end
 
 PRINT:
-#call print_statement
+call print_statement
 br statement_end
 
 IF:

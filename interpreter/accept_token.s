@@ -1,3 +1,7 @@
+.data
+ERROR_MSG:
+.string "Error unexpeceted token, interpreter exit! Please fix your code and retry!"
+
 .text
 #function: check if the current_token is the same as the expected token, if not report error and stop the program
 #parameter: r4: expected token
@@ -19,6 +23,8 @@ wrong_token:
 #############################################
 #############################################
 #############################################
+movia r4, ERROR_MSG
+call print_to_debug
 #br to inf loop
 
 accept_token_end:

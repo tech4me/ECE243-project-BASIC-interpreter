@@ -11,6 +11,8 @@
         <type>Assembly Program</type>
         <source_files>
             <source_file filepath="true">main.s</source_file>
+            <source_file filepath="true">Init.s</source_file>
+            <source_file filepath="true">ISR.s</source_file>
             <source_file filepath="true">tokenizer/atoi.s</source_file>
             <source_file filepath="true">tokenizer/isdigit.s</source_file>
             <source_file filepath="true">tokenizer/singlechar.s</source_file>
@@ -19,6 +21,22 @@
             <source_file filepath="true">tokenizer/strncmp.s</source_file>
             <source_file filepath="true">tokenizer/tokenizer.s</source_file>
             <source_file filepath="true">tokenizer/tokens.s</source_file>
+            <source_file filepath="true">vga/VGA_Init.s</source_file>
+            <source_file filepath="true">timer/Timer_ISR.s</source_file>
+            <source_file filepath="true">timer/Timer_Init.s</source_file>
+            <source_file filepath="true">keyboard/PS2_ASCII.s</source_file>
+            <source_file filepath="true">keyboard/PS2_ISR.s</source_file>
+            <source_file filepath="true">keyboard/PS2_Init.s</source_file>
+            <source_file filepath="true">interpreter/accept_token.s</source_file>
+            <source_file filepath="true">interpreter/line_num_free.s</source_file>
+            <source_file filepath="true">interpreter/line_num_struct.s</source_file>
+            <source_file filepath="true">interpreter/line_statement.s</source_file>
+            <source_file filepath="true">interpreter/statement.s</source_file>
+            <source_file filepath="true">interpreter/find_line_index.s</source_file>
+            <source_file filepath="true">interpreter/add_line_index.s</source_file>
+            <source_file filepath="true">interpreter/interpreter_Init.s</source_file>
+            <source_file filepath="true">interpreter/run_interpreter.s</source_file>
+            <source_file filepath="true">interpreter/run.s</source_file>
         </source_files>
         <options>
             <start_symbol>_start</start_symbol>
@@ -38,11 +56,21 @@
                 <required_section/>
                 <fixed_base_address/>
             </linker_section>
-            <linker_section name=".text">
+            <linker_section name=".data">
                 <memory_device>SDRAM.s1</memory_device>
                 <base_address>0x00000200</base_address>
+                <end_address>0x001FFFFF</end_address>
+            </linker_section>
+            <linker_section name=".text">
+                <memory_device>SDRAM.s1</memory_device>
+                <base_address>0x00200000</base_address>
                 <end_address>0x03FFFFFF</end_address>
                 <required_section/>
+            </linker_section>
+            <linker_section name=".bss">
+                <memory_device>Onchip_SRAM.s2</memory_device>
+                <base_address>0x08000000</base_address>
+                <end_address>0x0803FFFF</end_address>
             </linker_section>
         </linker_sections>
     </program>

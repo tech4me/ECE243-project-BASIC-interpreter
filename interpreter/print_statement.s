@@ -1,9 +1,13 @@
+.include "defines.h"
 .text
 .global print_statement
 #function: execute print statement
 print_statement:
-subi sp, sp, 4
-stw ra, 0(ra)
+subi sp, sp, 16
+stw ra, 0(sp)
+stw r16, 4(sp)
+stw r17, 8(sp)
+stw r18, 12(sp)
 
 #accept print token
 movi r4, PRINT_TOKEN
@@ -31,14 +35,30 @@ beq r17, r18, print_statement_end
 br print_loop
 
 print_string:
-
+call tokenize_string
+movia r4, PRINT_STRING_BUF
+call print_to_output
+#clear PRINT_STRING_BUF
+stb r0, 0(r4)
+call tokenize_next
 br while_loop
 
 print_space:
-
+movia r4, PRINT_STRING_BUF
+movi r5, ' '
+stb r5, 0(r4)
+stb r0, 1(r4)
+call print_to_output
+#clear PRINT_STRING_BUF
+stb r0, 0(r4)
+call tokenize_next
 br while_loop
 
 print_nothing:
+call tokenize_next
+br while_loop
+
+print_number:
 
 br while_loop
 
@@ -46,6 +66,9 @@ print_statement_end:
 
 call tokenize_next
 
-ldw ra, 0(ra)
-addi sp, sp, 4
+ldw ra, 0(sp)
+ldw r16, 4(sp)
+ldw r17, 8(sp)
+ldw r18, 12(sp)
+addi sp, sp, 16
 ret

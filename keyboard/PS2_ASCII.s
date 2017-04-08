@@ -1,3 +1,4 @@
+
 .data
 .global ASCII_LIST_PTR
 
@@ -5,7 +6,7 @@ ASCII_LIST_PTR:
 .word ASCII_LIST
 
 ASCII_LIST:
-.skip 21
+.skip 21 
 .byte 'Q' #21
 .byte 0x031 #22: number 1
 .skip 3 #23,24,25
@@ -41,17 +42,29 @@ ASCII_LIST:
 .byte 'U' #60
 .byte 0x037 #61: number 7 
 .byte 0x038 #62: number 8
-.skip 3
+.skip 2
+.byte 0x02c  #65: ,
 .byte 'K' #66
 .byte 'I' #67
 .byte 'O' #68
 .byte 0x030 #69: number 0 
 .byte 0x039 #70: number 9
-.skip 4
+.skip 2
+.byte 0x02e #73: . 
+.byte 0x02f #74: /
 .byte 'L' #75
-.skip 1
+.byte 0x03b #76: ;
 .byte 'P' #77
-.skip 12
+.byte 0x02d #78: -
+.skip 3
+.byte 0x027 #82: '
+.skip 1
+.byte 0x05b #84: [
+.byte 0x03d #85: =
+.skip 4
 .byte 0x0D #ENTER key, 90
-.skip 11
+.byte 0x05d #91: ]
+.skip 1 
+.byte 0x05c #93: \
+.skip 8
 .byte 0x08 #Backspace key, 102

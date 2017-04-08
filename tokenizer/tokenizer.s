@@ -1,6 +1,7 @@
 .include "defines.h"
 
 .data
+.global PRINT_STRING_BUF
 PRINT_STRING_BUF:
 .skip MAX_STRING_LENGTH
 
@@ -237,12 +238,13 @@ ldw ra, 8(sp)
 addi sp, sp, 12
 ret
 
+.global get_variable_num
 #function: get the variable number of a character(when only allowing single character variable)
 get_variable_num:
 movia r2, ptr
 ldw r2, 0(r2)
 ldb r2, 0(r2)
-subi r2, r2, 'a'
+subi r2, r2, 'A'
 ret
 
 .global is_tokenize_finished

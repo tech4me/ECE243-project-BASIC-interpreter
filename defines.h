@@ -1,6 +1,6 @@
 #interpreter defines
 .equ MAX_LINE_NUM, 60
-.equ MAX_STRING_LENGTH, 40
+.equ MAX_STRING_LENGTH, 80
 .equ MAX_NUMBER_LENGTH, 6
 
 #token defines

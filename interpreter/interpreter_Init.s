@@ -4,10 +4,10 @@ end_flag:
 .word 0
 
 .text
-.global interpreter_Init
+.global interpreter_init
 #function: initialize the interpreter
 #parameter: r4: pointer to the program to start
-interpreter_Init:
+interpreter_init:
 subi sp, sp, 12
 stw ra, 0(sp)
 stw r16, 4(sp)

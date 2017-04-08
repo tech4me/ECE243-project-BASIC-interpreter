@@ -19,12 +19,23 @@ beq r9, r10, E0_READ_MORE #should read more
 movi r10, 0xF0
 beq r9, r10, F0_IGNORE #should ignore the rest
 #The rest can directly save
-movia r10, INPUT_BUF_PTR
+movia r10, INPUT_BUF_PTR 
 ldw r10, 0(r10) #r10 gets the first address in INPUT_BUF_PTR
 movia r11, CHAR_COUNT
 ldw r12, 0(r11) #r12 gets the count 
 add r10, r10, r12 #r10 points to the last char in INPUT_BUF
 
+movia r14, MODE_FLAG
+stw r0, 0(r14) #set MODE_FLAG to 0 (default mode)
+ 
+
+movi r14, 0x05 #make code for F1 button
+beq r9, r14, OUTPUT_BUF_MODE #check if F1 is pressed, if yes, VGA displays OUTPUT_BUF
+
+movi r14, 0x04 #make code for F3 button
+beq r9, r14, OUTPUT_BUF_MODE #check if F3 is pressed, if yes, VGA displays DEBUG_BUF
+
+#if neither F2 nor F3 is pressed, VGA displays INPUT_BUF and store char in INPUT_BUF
 movia r13, ASCII_LIST_PTR
 ldw r13, 0(r13) #r13 gets the first address in ASCII_LIST
 add r9, r9, r13 #r9 now has the address of the ascii of curr char
@@ -42,6 +53,9 @@ stb r0, 1(r10) #store a NULL character right after the last stored char in INPUT
 addi r12, r12, 1
 stw r12, 0(r11) #save the new count back
 
+movia r4, INPUT_BUF_PTR
+ldw r4, 0(r4) #r4 get the first address in INPUT_BUF_PTR
+
 call VGA_DISPLAY
 
 #movia r13, CURSOR_POS
@@ -52,7 +66,6 @@ br END
 
 CALL_VGA:
 call VGA_DISPLAY #let VGA display all chars in INPUT_BUF once
-
 br END
 
 
@@ -97,6 +110,26 @@ movi r10, 32 #char: space
 stbio r10, 0(r14) #store a space char at curr blinking position
 subi r14, r14, 1 #move the curr blinking position backwards: address --
 stw r14, 0(r15)
+br CALL_VGA
+
+
+OUTPUT_BUF_MODE: #let VGA display content in OUTPUT_BUF when F1 is pressed
+movia r4, OUTPUT_BUF
+
+movi r14, 0x01
+movia r15, MODE_FLAG 
+stw r14, 0(r15) # set MODE_FLAG == 1
+
+br CALL_VGA 
+
+
+DEBUG_BUF_MODE: #let VGA display content in DEBUG_BUF when F3 is pressed
+movia r4, DEBUG_BUF
+
+movi r14, 0x03
+movia r15, MODE_FLAG 
+stw r14, 0(r15) # set MODE_FLAG == 3
+
 br CALL_VGA
 
 

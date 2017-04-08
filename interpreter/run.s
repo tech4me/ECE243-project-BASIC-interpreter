@@ -5,7 +5,7 @@
 run:
 subi sp, sp, 4
 stw ra, 0(sp)
-call interpreter_Init #init with the program pointer
+call interpreter_init #init with the program pointer
 
 keep_running:
 call run_interpreter
