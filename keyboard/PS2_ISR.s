@@ -1,4 +1,12 @@
 .equ PS2_Controller, 0xFF200100
+
+.data
+.align 2
+F0_State:
+.word 0
+Shift_Pressed:
+.word 0
+
 .text
 .global PS2_ISR
 PS2_ISR:
@@ -12,19 +20,21 @@ and r10, r10, r9 #get high 16 bits of
 srli r10, r10, 0x10
 #beq r10, r0, WAIT_FOR_PS2 #check again
 andi r9, r9, 0xFF #get data itself in r9
-movi r10, 0xE1
-beq r9, r10, E1_IGNORE #should ignore the rest
-movi r10, 0xE0
-beq r9, r10, E0_READ_MORE #should read more
+#movi r10, 0xE1
+#beq r9, r10, E1_IGNORE #should ignore the rest
+#movi r10, 0xE0
+#beq r9, r10, E0_READ_MORE #should read more
+
+movia r14, F0_State
+ldw r14, 0(r14)
+bne r14, r0, F0_HANDLE_SECOND
+
 movi r10, 0xF0
-beq r9, r10, F0_IGNORE #should ignore the rest
+beq r9, r10, F0_HANDLE_FIRST
 #The rest can directly save
 movia r10, INPUT_BUF_PTR 
 ldw r10, 0(r10)
-#movia r11, CHAR_COUNT
-#ldw r12, 0(r11) #r12 gets the count 
-#add r10, r10, r12 #r10 points to the last char in INPUT_BUF
- 
+
 movi r14, 0x05 #make code for F1 button
 beq r9, r14, INPUT_BUF_MODE #check if F1 is pressed, if yes, VGA displays INPUT_BUF
 
@@ -41,14 +51,24 @@ movia r14, MODE_FLAG
 ldw r14, 0(r14)
 bne r14, r0, END #not in input mode, abondon all input other then F keys
 
-#if neither F2 nor F3 is pressed, VGA displays INPUT_BUF and store char in INPUT_BUF
-movia r13, ASCII_LIST_PTR
-ldw r13, 0(r13) #r13 gets the first address in ASCII_LIST
+movi r14, Shift_Pressed 
+ldw r14, 0(r14)
+bne r14, r0, SHIFT_VERSION
+
+movi r14, 0x12 
+beq r9, r14, SHIFT_PRESSED #shift pressed, set bool to true
+
+#if F is not pressed, VGA displays INPUT_BUF and store char in INPUT_BUF
+movia r13, ASCII_LIST
 add r9, r9, r13 #r9 now has the address of the ascii of curr char
 ldb r13, 0(r9) #r13 gets the ascci of curr char 
 
 movi r9, 0x08 #check if BACKSPACE key 
 beq r13, r9, BACKSPACE
+
+SHIFT_VERSION_SKIP:
+
+beq r13, r0, END #don't do anything if that character is not implemented
 
 stb r13, 0(r10) #store input in INPUT_BUF
 
@@ -56,8 +76,6 @@ stb r0, 1(r10) #store a NULL character right after the last stored char in INPUT
 
 
 addi r10, r10, 1
-#addi r12, r12, 1
-#stw r12, 0(r11) #save the new count back
 
 movia r4, INPUT_BUF_PTR
 stw r10, 0(r4) #store the new pointer pos
@@ -66,6 +84,7 @@ movia r4, INPUT_BUF
 call VGA_DISPLAY
 br END
 
+/*
 E1_IGNORE:
 ldwio r9, 0(r8)
 movia r10, 0xFFFF0000
@@ -83,14 +102,24 @@ beq r9, r10, F0_IGNORE #should ignore the rest
 #case should be added for arrow keys
 ######
 br END
+*/
 
-F0_IGNORE:
-ldwio r9, 0(r8)
-movia r10, 0xFFFF0000
-and r10, r9, r10
-srli r10, r10, 0x10
-beq r10, r0, F0_IGNORE #ignore everything in FIFO
+F0_HANDLE_FIRST:
+movia r14, F0_State
+movi r13, 1
+stw r13, 0(r14)
+#ldwio r9, 0(r8)
+#movia r10, 0xFFFF0000
+#and r10, r9, r10
+#srli r10, r10, 0x10
+#beq r10, r0, F0_HANDLE #ignore everything in FIFO
+br END
 
+F0_HANDLE_SECOND:
+movia r14, F0_State
+stw r0, 0(r14)
+movi r14, 0x12
+beq r9, r14, SHIFT_RELEASED #see if shift is released
 br END
 
 BACKSPACE:
@@ -158,4 +187,21 @@ END:
 ldw ra, 0(sp)
 addi sp, sp, 4
 ret
-.end
+
+SHIFT_PRESSED:
+movia r14, Shift_Pressed
+movi r13, 1
+stw r13, 0(r14)
+br END
+
+SHIFT_RELEASED:
+movia r14, Shift_Pressed
+stw r0, 0(r14)
+br END
+
+SHIFT_VERSION:
+movia r13, ASCII_LIST
+add r9, r9, r13 #r9 now has the address of the ascii of curr char
+addi r9, r9, 256
+ldb r13, 0(r9) #r13 gets the ascci of curr char 
+br SHIFT_VERSION_SKIP

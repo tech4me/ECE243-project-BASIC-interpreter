@@ -1,9 +1,5 @@
 .data
-.global ASCII_LIST_PTR
-
-ASCII_LIST_PTR:
-.word ASCII_LIST
-
+.global ASCII_LIST
 ASCII_LIST:
 .skip 14
 .byte '\r' #14
@@ -70,25 +66,39 @@ ASCII_LIST:
 .skip 8
 .byte 0x08 #Backspace key, 102
 
-#shift values=make code+100 offset
-.skip 19
-.byte 0x021     #!, 122
+#shift values=make code+256 offset
+.skip 175
+.byte 0x021     #!, 278
 .skip 7
-.byte 0x040     #@, 130
+.byte 0x040     #@, 286
 .skip 6
-.byte 0x024     #$, 137
-.byte 0x023     ##, 138
+.byte 0x024     #$, 293
+.byte 0x023     ##, 294
 .skip 7
-.byte 0x025     #%, 146
+.byte 0x025     #%, 302
 .skip 7
-.byte 0x05E     #^, 154
+.byte 0x05E     #^, 310
 .skip 6
-.byte 0x026     #&, 161
-.byte 0x02A     #*, 162
-.skip 6
-.byte 0x029     #), 169
-.byte 0x028     #(, 170
-.skip 7
-.byte 0x05F     #_, 178
-.skip 6
-.byte 0x02B     #+, 185
+.byte 0x026     #&, 317
+.byte 0x02A     #*, 318
+.skip 2
+.byte 0x03C     #<, 321
+.skip 3
+.byte 0x029     #), 325
+.byte 0x028     #(, 326
+.skip 2
+.byte 0x03E     #>, 329
+.byte 0x03F     #?, 330
+.skip 1
+.byte 0x03A     #:, 332
+.skip 1
+.byte 0x05F     #_, 334
+.skip 3
+.byte 0x022     #", 338
+.skip 1
+.byte 0x07B     #{, 340
+.byte 0x02B     #+, 341
+.skip 5
+.byte 0x07D     #}, 347
+.skip 1
+.byte 0x07C     #|, 349
