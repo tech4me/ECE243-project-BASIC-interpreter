@@ -5,7 +5,9 @@ ASCII_LIST_PTR:
 .word ASCII_LIST
 
 ASCII_LIST:
-.skip 21 
+.skip 14
+.byte '\r' #14
+.skip 6
 .byte 'Q' #21
 .byte 0x031 #22: number 1
 .skip 3 #23,24,25
@@ -67,3 +69,26 @@ ASCII_LIST:
 .byte 0x05c #93: \
 .skip 8
 .byte 0x08 #Backspace key, 102
+
+#shift values=make code+100 offset
+.skip 19
+.byte 0x021     #!, 122
+.skip 7
+.byte 0x040     #@, 130
+.skip 6
+.byte 0x024     #$, 137
+.byte 0x023     ##, 138
+.skip 7
+.byte 0x025     #%, 146
+.skip 7
+.byte 0x05E     #^, 154
+.skip 6
+.byte 0x026     #&, 161
+.byte 0x02A     #*, 162
+.skip 6
+.byte 0x029     #), 169
+.byte 0x028     #(, 170
+.skip 7
+.byte 0x05F     #_, 178
+.skip 6
+.byte 0x02B     #+, 185

@@ -21,12 +21,12 @@
             <source_file filepath="true">tokenizer/strncmp.s</source_file>
             <source_file filepath="true">tokenizer/tokenizer.s</source_file>
             <source_file filepath="true">tokenizer/tokens.s</source_file>
-            <source_file filepath="true">vga/VGA_Init.s</source_file>
             <source_file filepath="true">timer/Timer_ISR.s</source_file>
             <source_file filepath="true">timer/Timer_Init.s</source_file>
             <source_file filepath="true">keyboard/PS2_ASCII.s</source_file>
             <source_file filepath="true">keyboard/PS2_ISR.s</source_file>
             <source_file filepath="true">keyboard/PS2_Init.s</source_file>
+            <source_file filepath="true">vga/VGA.s</source_file>
             <source_file filepath="true">interpreter/accept_token.s</source_file>
             <source_file filepath="true">interpreter/line_num_free.s</source_file>
             <source_file filepath="true">interpreter/line_num_struct.s</source_file>
@@ -39,7 +39,6 @@
             <source_file filepath="true">interpreter/run.s</source_file>
             <source_file filepath="true">interpreter/print_to_output.s</source_file>
             <source_file filepath="true">interpreter/print_to_debug.s</source_file>
-            <source_file filepath="true">interpreter/print_statement.s</source_file>
             <source_file filepath="true">interpreter/exit.s</source_file>
             <source_file filepath="true">interpreter/itoa.s</source_file>
             <source_file filepath="true">interpreter/expression.s</source_file>
@@ -47,6 +46,8 @@
             <source_file filepath="true">interpreter/term.s</source_file>
             <source_file filepath="true">interpreter/relation.s</source_file>
             <source_file filepath="true">interpreter/variable.s</source_file>
+            <source_file filepath="true">interpreter/let_statement.s</source_file>
+            <source_file filepath="true">interpreter/print_statement.s</source_file>
         </source_files>
         <options>
             <start_symbol>_start</start_symbol>

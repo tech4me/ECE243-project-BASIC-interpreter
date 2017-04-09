@@ -2,10 +2,11 @@
 .align 2
 .global INPUT_BUF_PTR
 INPUT_BUF_PTR:
-.word INPUT_BUF
+.word INPUT_BUF_END - 1
 .global INPUT_BUF
 INPUT_BUF:
-.string "10 LET A = (2*(-50))\n20 PRINT A;\"\n\" \n30 LET B = 90\n40 PRINT A * B\n"
+.string "10 LET A = (2*(-50))\n20 PRINT A;\"\r\" \n30 LET B = 90\n40 PRINT A * B\n"
+INPUT_BUF_END:
 .skip 4800 #Space left for input buffer
 
 .align 2
@@ -20,17 +21,12 @@ BLINK_FLAG:
 MODE_FLAG:
 .word 0
 
-.global CHAR_COUNT
-CHAR_COUNT:
-.word 0
-
 .align 2
 .global OUTPUT_BUF_PTR
 OUTPUT_BUF_PTR:
 .word OUTPUT_BUF
 .global OUTPUT_BUF
 OUTPUT_BUF:
-.string "ABCD"
 .skip 4800
 
 .align 2

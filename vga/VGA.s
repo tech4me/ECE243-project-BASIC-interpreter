@@ -1,9 +1,6 @@
 .equ ADDR_VGA, 0x08000000
 .equ ADDR_CHAR, 0x09000000
 
-#.section .data
-#ASCII_String: .asciz "hi"
-
 .global VGA_DISPLAY  
 .text
 VGA_DISPLAY:
@@ -12,17 +9,11 @@ VGA_DISPLAY:
   stw r17, 4(sp)
   stw r18, 8(sp)
   stw r19, 12(sp)
-  #stw r4, 16(sp)
   stw r20, 16(sp)
-  #stw r6, 24(sp)
-  #stw r5, 28(sp)
-  #stw r3, 32(sp)
-  #stw r7, 36(sp)
   stw ra, 20(sp)
   ##only store callee save 
   
-VGA_Print:
-  movia r19,ADDR_VGA
+  movia r19, ADDR_VGA
   movia r3, ADDR_CHAR
   
   mov r6, r3 #r6 points to the blinking position, initiaily (0,0)
@@ -43,8 +34,17 @@ VGA_Loop:
   ldb r20, 0(r4)
   beq r0, r20, Done_Display #no ASCII to display in the memory
                             #or r4 points to the null character in the INPUT_BUF
-  movi r5, 0x0A	#check if ENTER key			
-  beq r20, r5, ENTER 
+  
+  #in INPUT_MODE print CR as a special character/ in OUTPUT_MODE and DEBUG_MODE print it as LF
+  movia r5, MODE_FLAG
+  ldw r5, 0(r5)
+  beq r5, r0, check_lf
+  #check both CR and LF
+  movi r5, 0x0D	#check if CR key
+  beq r20, r5, LF
+  check_lf:
+  movi r5, 0x0A	#check if LF key			
+  beq r20, r5, LF
   
   movi r18, 0x050 #r18 = 80
   beq r16, r18, Move_to_Nextline #if x = 80, move to next line
@@ -55,7 +55,6 @@ VGA_Loop:
  
   br VGA_Loop
   
-
 Move_to_Nextline:
 
   ldb r5,0(r4) #r5 now has the curr char in the INPUT_BUF
@@ -97,7 +96,7 @@ Write_Char:
   
   ret 
 
-ENTER:
+LF:
   addi r17, r17, 0b1 # y++
   mov r16, r0 # x = 0
   addi r4, r4, 0b1 #r4 now points to next char in INPUT_BUF
@@ -152,13 +151,7 @@ Done_Display:
   ldw r17, 4(sp)
   ldw r18, 8(sp)
   ldw r19, 12(sp)
-  #ldw r4, 16(sp)
   ldw r20, 16(sp)
-  #ldw r6, 24(sp)
-  #ldw r5, 28(sp)
-  #ldw r7, 36(sp)
   ldw ra, 20(sp)
   addi sp, sp, 24
   ret
-
-.end
