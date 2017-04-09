@@ -19,13 +19,11 @@ call tokenize_next
 br accept_token_end
 
 wrong_token:
-#exit program and clear buffer / report error
-#############################################
-#############################################
-#############################################
+#exit interpreter / report error
 movia r4, ERROR_MSG
 call print_to_debug
-#br to inf loop
+
+br exit
 
 accept_token_end:
 ldw ra, 0(sp)

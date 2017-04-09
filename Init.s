@@ -10,17 +10,9 @@ movia r2, CURSOR_POS
 movia r3, ADDR_CHAR
 stw r3, 0(r2) #initial CURSOR_POS is 0x09000000, position (0,0) on VGA
 
-#Reset ptr and next_ptr position
-#movia r2, ptr
-#movia r3, INPUT_BUF
-#stw r3, 0(r2)
-#movia r2, next_ptr
-#stw r3, 0(r2)
-
-#Reset default token
-#movia r2, current_token
-#movi r3, ERROR_TOKEN
-#stw r3, 0(r2)
+#set default VGA mode
+movia r14, MODE_FLAG
+stw r0, 0(r14) #set MODE_FLAG to 0 (default mode input)
 
 call PS2_Init
 

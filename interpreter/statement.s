@@ -11,6 +11,8 @@ movia r16, current_token
 ldw r16, 0(r16)
 movi r17, LET_TOKEN
 beq r16, r17, LET
+movi r17, VARIABLE_TOKEN
+beq r16, r17, VARIABLE
 movi r17, PRINT_TOKEN
 beq r16, r17, PRINT
 movi r17, IF_TOKEN
@@ -41,7 +43,11 @@ addi sp, sp, 12
 ret
 
 LET:
-#call let_statement
+movi r4, LET_TOKEN
+call accept_token
+
+VARIABLE:
+call let_statement
 br statement_end
 
 PRINT:

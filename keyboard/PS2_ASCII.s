@@ -1,4 +1,3 @@
-
 .data
 .global ASCII_LIST_PTR
 
@@ -62,7 +61,7 @@ ASCII_LIST:
 .byte 0x05b #84: [
 .byte 0x03d #85: =
 .skip 4
-.byte 0x0D #ENTER key, 90
+.byte 0x0A #ENTER key, 90
 .byte 0x05d #91: ]
 .skip 1 
 .byte 0x05c #93: \

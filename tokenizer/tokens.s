@@ -151,4 +151,4 @@ next_ptr:
 
 .global current_token
 current_token:
-.word STRING_TOKEN
+.word ERROR_TOKEN

@@ -59,7 +59,15 @@ call tokenize_next
 br while_loop
 
 print_number:
-
+call expression
+mov r4, r2
+movia r5, PRINT_STRING_BUF
+movi r6, 10
+call itoa
+movia r4, PRINT_STRING_BUF
+call print_to_output
+#clear PRINT_STRING_BUF
+stb r0, 0(r4)
 br while_loop
 
 print_statement_end:

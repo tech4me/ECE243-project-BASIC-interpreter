@@ -24,16 +24,22 @@ ldw r10, 0(r10) #r10 gets the first address in INPUT_BUF_PTR
 movia r11, CHAR_COUNT
 ldw r12, 0(r11) #r12 gets the count 
 add r10, r10, r12 #r10 points to the last char in INPUT_BUF
-
-movia r14, MODE_FLAG
-stw r0, 0(r14) #set MODE_FLAG to 0 (default mode)
  
-
 movi r14, 0x05 #make code for F1 button
-beq r9, r14, OUTPUT_BUF_MODE #check if F1 is pressed, if yes, VGA displays OUTPUT_BUF
+beq r9, r14, INPUT_BUF_MODE #check if F1 is pressed, if yes, VGA displays INPUT_BUF
+
+movi r14, 0x06 #make code for F2 button
+beq r9, r14, OUTPUT_BUF_MODE #check if F2 is pressed, if yes, VGA displays OUTPUT_BUF
 
 movi r14, 0x04 #make code for F3 button
-beq r9, r14, OUTPUT_BUF_MODE #check if F3 is pressed, if yes, VGA displays DEBUG_BUF
+beq r9, r14, DEBUG_BUF_MODE #check if F3 is pressed, if yes, VGA displays DEBUG_BUF
+
+movi r14, 0x03 #make code for F5 button
+beq r9, r14, RUN_MODE #check if F5 is pressed, if yes, run interpreter, and VGA displays OUTPUT_BUF
+
+movia r14, MODE_FLAG 
+ldw r14, 0(r14)
+bne r14, r0, END #not in input mode, abondon all input other then F keys
 
 #if neither F2 nor F3 is pressed, VGA displays INPUT_BUF and store char in INPUT_BUF
 movia r13, ASCII_LIST_PTR
@@ -45,7 +51,6 @@ movi r9, 0x08 #check if BACKSPACE key
 beq r13, r9, BACKSPACE
 
 stb r13, 0(r10) #store input in INPUT_BUF
-##stb r9, 0(r10) #store input in INPUT_BUF 
 
 stb r0, 1(r10) #store a NULL character right after the last stored char in INPUT_BUF 
 
@@ -56,6 +61,7 @@ stw r12, 0(r11) #save the new count back
 movia r4, INPUT_BUF_PTR
 ldw r4, 0(r4) #r4 get the first address in INPUT_BUF_PTR
 
+movia r4, INPUT_BUF
 call VGA_DISPLAY
 
 #movia r13, CURSOR_POS
@@ -65,7 +71,7 @@ call VGA_DISPLAY
 br END
 
 CALL_VGA:
-call VGA_DISPLAY #let VGA display all chars in INPUT_BUF once
+call VGA_DISPLAY
 br END
 
 
@@ -112,8 +118,16 @@ subi r14, r14, 1 #move the curr blinking position backwards: address --
 stw r14, 0(r15)
 br CALL_VGA
 
+INPUT_BUF_MODE: #let VGA display content in OUTPUT_BUF when F1 is pressed
+movia r4, INPUT_BUF
 
-OUTPUT_BUF_MODE: #let VGA display content in OUTPUT_BUF when F1 is pressed
+movi r14, 0x00
+movia r15, MODE_FLAG 
+stw r14, 0(r15) # set MODE_FLAG == 0
+
+br CALL_VGA 
+
+OUTPUT_BUF_MODE: #let VGA display content in OUTPUT_BUF when F2 is pressed
 movia r4, OUTPUT_BUF
 
 movi r14, 0x01
@@ -126,12 +140,22 @@ br CALL_VGA
 DEBUG_BUF_MODE: #let VGA display content in DEBUG_BUF when F3 is pressed
 movia r4, DEBUG_BUF
 
-movi r14, 0x03
+movi r14, 0x02
 movia r15, MODE_FLAG 
-stw r14, 0(r15) # set MODE_FLAG == 3
+stw r14, 0(r15) # set MODE_FLAG == 2
 
 br CALL_VGA
 
+RUN_MODE:
+movi r14, 0x01
+movia r15, MODE_FLAG 
+stw r14, 0(r15) # set MODE_FLAG == 1
+
+movia r4, INPUT_BUF
+call run
+
+movia r4, OUTPUT_BUF
+br CALL_VGA 
 
 END:
 ldw ra, 0(sp)

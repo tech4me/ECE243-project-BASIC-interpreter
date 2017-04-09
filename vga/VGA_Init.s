@@ -35,7 +35,7 @@ VGA_Print:
   ldw r20, 0(r20)
   movi r5, 0x01 
   beq r5, r20, CLEAR_SCREEN #if OUTPUT_MODE, clear screen first before printing any text
-  movi r5, 0x03
+  movi r5, 0x02
   beq r5, r20, CLEAR_SCREEN #if DEBUG_MODE, clear screen first before printing any text
   
 #otherwise, INPUT_MODE, start printing directly  
@@ -43,7 +43,7 @@ VGA_Loop:
   ldb r20, 0(r4)
   beq r0, r20, Done_Display #no ASCII to display in the memory
                             #or r4 points to the null character in the INPUT_BUF
-  movi r5, 0x0D	#check if ENTER key			
+  movi r5, 0x0A	#check if ENTER key			
   beq r20, r5, ENTER 
   
   movi r18, 0x050 #r18 = 80

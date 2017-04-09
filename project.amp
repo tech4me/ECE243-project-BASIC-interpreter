@@ -37,6 +37,16 @@
             <source_file filepath="true">interpreter/interpreter_Init.s</source_file>
             <source_file filepath="true">interpreter/run_interpreter.s</source_file>
             <source_file filepath="true">interpreter/run.s</source_file>
+            <source_file filepath="true">interpreter/print_to_output.s</source_file>
+            <source_file filepath="true">interpreter/print_to_debug.s</source_file>
+            <source_file filepath="true">interpreter/print_statement.s</source_file>
+            <source_file filepath="true">interpreter/exit.s</source_file>
+            <source_file filepath="true">interpreter/itoa.s</source_file>
+            <source_file filepath="true">interpreter/expression.s</source_file>
+            <source_file filepath="true">interpreter/factor.s</source_file>
+            <source_file filepath="true">interpreter/term.s</source_file>
+            <source_file filepath="true">interpreter/relation.s</source_file>
+            <source_file filepath="true">interpreter/variable.s</source_file>
         </source_files>
         <options>
             <start_symbol>_start</start_symbol>

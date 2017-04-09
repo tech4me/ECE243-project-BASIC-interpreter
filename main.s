@@ -5,7 +5,7 @@ INPUT_BUF_PTR:
 .word INPUT_BUF
 .global INPUT_BUF
 INPUT_BUF:
-.string "10 PRINT \"ABC\", \"HAHA\""
+.string "10 LET A = (2*(-50))\n20 PRINT A;\"\n\" \n30 LET B = 90\n40 PRINT A * B\n"
 .skip 4800 #Space left for input buffer
 
 .align 2
@@ -16,7 +16,7 @@ CURSOR_POS:
 BLINK_FLAG:
 .word 0
 
-.global MODE_FLAG #0 for INPUT_BUF_MODE; 1 for OUTPUT_BUF_MODE; 3 for DEBUG_BUF_MODE
+.global MODE_FLAG #0 for INPUT_BUF_MODE; 1 for OUTPUT_BUF_MODE; 2 for DEBUG_BUF_MODE
 MODE_FLAG:
 .word 0
 
@@ -47,9 +47,17 @@ DEBUG_BUF:
 _start:
 movia sp, 0x03FFFFFC #Reset stack pointer
 call Init
+
 movia r4, INPUT_BUF
-call run
-#call print_to_output
-end:
-br end
+call VGA_DISPLAY
+
+main_end:
+br main_end
+
+.global main_reenable_it
+main_reenable_it:
+#re-enable interrupt
+movi r2, 1
+wrctl ctl0, r2
+br main_end
 .end

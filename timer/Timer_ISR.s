@@ -6,11 +6,11 @@
 Timer_ISR:
 
   movia r8, MODE_FLAG
-  ldw r8, 0(r8) #r8 now gets the MODE_FLAG value
+  ldw r8, 0(r8) #r8 now gets the MODE_FLAG value 
   movi r9, 0x01
   beq r9, r8, TIMER_END #if MODE_FLAG == 1 (OUTPUT_MODE), no blink 
-  movi r9, 0x03
-  beq r9, r8, TIMER_END #if MODE_FLAG == 3 (DEBUG_MODE), no blink 
+  movi r9, 0x02
+  beq r9, r8, TIMER_END #if MODE_FLAG == 2 (DEBUG_MODE), no blink 
   
   
   movia r8, TIMER
