@@ -9,7 +9,7 @@ call interpreter_init #init with the program pointer
 
 keep_running:
 call run_interpreter
-call is_tokenize_finished
+call interpreter_end
 bne r2, r0, run_end
 br keep_running
 

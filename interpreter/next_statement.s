@@ -2,7 +2,7 @@
 
 .data
 ERROR_MSG:
-.string ""
+.string "Unable to find matching FOR statement!"
 
 .text
 .global next_statement

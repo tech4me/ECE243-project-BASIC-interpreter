@@ -3,6 +3,7 @@
 .equ MAX_STRING_LENGTH, 80
 .equ MAX_NUMBER_LENGTH, 6
 .equ MAX_FOR_STACK_SIZE, 6
+.equ MAX_GOSUB_STACK_SIZE, 6
 
 #token defines
 .equ ERROR_TOKEN, 0

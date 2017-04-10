@@ -71,11 +71,11 @@ call goto_statement
 br statement_end
 
 GOSUB:
-#call gosub_statement
+call gosub_statement
 br statement_end
 
 RETURN:
-#call return_statement
+call return_statement
 br statement_end
 
 PEEK:
@@ -87,7 +87,7 @@ POKE:
 br statement_end
 
 END:
-#call end_statement
+call end_statement
 br statement_end
 
 DEFAULT:

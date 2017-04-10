@@ -35,6 +35,7 @@
             <source_file filepath="true">interpreter/find_line_index.s</source_file>
             <source_file filepath="true">interpreter/add_line_index.s</source_file>
             <source_file filepath="true">interpreter/interpreter_init.s</source_file>
+            <source_file filepath="true">interpreter/interpreter_end.s</source_file>
             <source_file filepath="true">interpreter/run_interpreter.s</source_file>
             <source_file filepath="true">interpreter/run.s</source_file>
             <source_file filepath="true">interpreter/print_to_output.s</source_file>
@@ -54,6 +55,9 @@
             <source_file filepath="true">interpreter/for_statement.s</source_file>
             <source_file filepath="true">interpreter/next_statement.s</source_file>
             <source_file filepath="true">interpreter/goto_statement.s</source_file>
+            <source_file filepath="true">interpreter/end_statement.s</source_file>
+            <source_file filepath="true">interpreter/gosub_statement.s</source_file>
+            <source_file filepath="true">interpreter/return_statement.s</source_file>
         </source_files>
         <options>
             <start_symbol>_start</start_symbol>

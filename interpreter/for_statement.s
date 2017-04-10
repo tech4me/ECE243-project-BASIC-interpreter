@@ -10,7 +10,7 @@ FOR_STACK:
 .word 0 #line number after the for loop
 .word 0 #variable number of the for loop
 .word 0 #the end condtion of the loop
-.skip 3*4*5
+.skip 3*4*(MAX_FOR_STACK_SIZE - 1)
 
 ERROR_MSG:
 .string "For stack overflowed, cannot have this many for loops!"

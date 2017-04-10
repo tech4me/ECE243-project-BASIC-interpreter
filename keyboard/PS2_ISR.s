@@ -47,6 +47,9 @@ beq r9, r14, DEBUG_BUF_MODE #check if F3 is pressed, if yes, VGA displays DEBUG_
 movi r14, 0x03 #make code for F5 button
 beq r9, r14, RUN_MODE #check if F5 is pressed, if yes, run interpreter, and VGA displays OUTPUT_BUF
 
+movi r14, 0x83 #make code for F7 button
+beq r9, r14, CLEAR_BUF #check if F7 is pressed, if yes, clear both OUTPUT BUFFER AND DEBUG BUFFER
+
 movia r14, MODE_FLAG 
 ldw r14, 0(r14)
 bne r14, r0, END #not in input mode, abondon all input other then F keys
@@ -181,6 +184,13 @@ call run
 
 movia r4, OUTPUT_BUF
 call VGA_DISPLAY
+br END
+
+CLEAR_BUF:
+movia r4, OUTPUT_BUF
+stb r0, 0(r4)
+movia r4, DEBUG_BUF
+stb r0, 0(r4)
 br END
 
 END:

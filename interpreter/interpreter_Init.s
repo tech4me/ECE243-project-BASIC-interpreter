@@ -14,6 +14,9 @@ stw r16, 4(sp)
 stw r17, 8(sp)
 mov r17, r4
 #reset program for loop stack and subroutine stack
+movia r16, FOR_STACK_INDEX
+stw r0, 0(r16)
+
 #Clear line index array
 call line_num_free
 #set peek and poke function
