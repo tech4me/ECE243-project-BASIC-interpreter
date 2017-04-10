@@ -21,6 +21,8 @@ VGA_DISPLAY:
   mov r16, r0 #r16 = x //the position of a pixel is (x,y)
   mov r17, r0 #r17 = y
   
+  br CLEAR_SCREEN
+  /*
   #check MODE to see if need to clear screen
   movia r20, MODE_FLAG
   ldw r20, 0(r20)
@@ -28,7 +30,8 @@ VGA_DISPLAY:
   beq r5, r20, CLEAR_SCREEN #if OUTPUT_MODE, clear screen first before printing any text
   movi r5, 0x02
   beq r5, r20, CLEAR_SCREEN #if DEBUG_MODE, clear screen first before printing any text
-  
+  */
+
 #otherwise, INPUT_MODE, start printing directly  
 VGA_Loop:
   ldb r20, 0(r4)

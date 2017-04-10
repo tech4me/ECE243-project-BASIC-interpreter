@@ -2,6 +2,7 @@
 .equ MAX_LINE_NUM, 60
 .equ MAX_STRING_LENGTH, 80
 .equ MAX_NUMBER_LENGTH, 6
+.equ MAX_FOR_STACK_SIZE, 6
 
 #token defines
 .equ ERROR_TOKEN, 0
@@ -39,8 +40,7 @@
 .equ GOTO_TOKEN, 30
 .equ GOSUB_TOKEN, 31
 .equ RETURN_TOKEN, 32
-.equ CALL_TOKEN, 33
-.equ REM_TOKEN, 34
-.equ PEEK_TOKEN, 35
-.equ POKE_TOKEN, 36
-.equ END_TOKEN, 37
+.equ REM_TOKEN, 33
+.equ PEEK_TOKEN, 34
+.equ POKE_TOKEN, 35
+.equ END_TOKEN, 36

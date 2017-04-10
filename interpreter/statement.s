@@ -55,19 +55,19 @@ call print_statement
 br statement_end
 
 IF:
-#call if_statement
+call if_statement
 br statement_end
 
 FOR:
-#call for_statement
+call for_statement
 br statement_end
 
 NEXT:
-#call next_statement
+call next_statement
 br statement_end
 
 GOTO:
-#call goto_statement
+call goto_statement
 br statement_end
 
 GOSUB:

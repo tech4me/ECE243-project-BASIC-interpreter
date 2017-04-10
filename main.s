@@ -5,7 +5,19 @@ INPUT_BUF_PTR:
 .word INPUT_BUF_END - 1
 .global INPUT_BUF
 INPUT_BUF:
-.string "10 LET A = (2*(-50))\n20 PRINT A;\"\r\" \n30 LET B = 90\n40 PRINT A * B\n"
+.ascii "10 LET A = (2*(50))\n"
+.ascii "20 PRINT A;\"\r\"\n"
+.ascii "30 LET B = 90\n"
+.ascii "40 PRINT A * B;\"\r\"\n"
+.ascii "50 IF A < 0 THEN LET A = 100 ELSE LET A = -100\n"
+.ascii "60 PRINT A;\"\r\"\n"
+.ascii "70 GOTO 90\n"
+.ascii "80 PRINT \"hahaha\r\"\n"
+.ascii "90 PRINT B + 90; \"\r\"\n"
+.ascii "100 FOR I = 0 TO 10\n"
+.ascii "110 PRINT A;\"\r\"\n"
+.ascii "120 NEXT I\n"
+.byte 0
 INPUT_BUF_END:
 .skip 4800 #Space left for input buffer
 
@@ -27,6 +39,7 @@ OUTPUT_BUF_PTR:
 .word OUTPUT_BUF
 .global OUTPUT_BUF
 OUTPUT_BUF:
+.byte 0
 .skip 4800
 
 .align 2
@@ -35,6 +48,7 @@ DEBUG_BUF_PTR:
 .word DEBUG_BUF
 .global DEBUG_BUF
 DEBUG_BUF:
+.byte 0
 .skip 4800
 
 .text
