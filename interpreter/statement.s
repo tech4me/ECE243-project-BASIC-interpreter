@@ -79,11 +79,11 @@ call return_statement
 br statement_end
 
 PEEK:
-#call peek_statement
+call peek_statement
 br statement_end
 
 POKE:
-#call poke_statement
+call poke_statement
 br statement_end
 
 END:

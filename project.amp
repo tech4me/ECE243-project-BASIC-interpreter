@@ -58,6 +58,8 @@
             <source_file filepath="true">interpreter/end_statement.s</source_file>
             <source_file filepath="true">interpreter/gosub_statement.s</source_file>
             <source_file filepath="true">interpreter/return_statement.s</source_file>
+            <source_file filepath="true">interpreter/peek_statement.s</source_file>
+            <source_file filepath="true">interpreter/poke_statement.s</source_file>
         </source_files>
         <options>
             <start_symbol>_start</start_symbol>

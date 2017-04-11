@@ -40,7 +40,12 @@ mov r4, r16
 call get_variable
 mov r4, r16
 addi r5, r2, 1
+
+subi sp, sp, 4
+stw r5, 0(sp)
 call set_variable
+ldw r5, 0(sp)
+addi sp, sp, 4
 
 ldw r2, 8(r17)
 blt r5, r2, jump_back

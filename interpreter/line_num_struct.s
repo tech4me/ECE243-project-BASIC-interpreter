@@ -16,4 +16,4 @@ line_index_array:
 .word 0
 #the above is an example of how the array is structured
 #save the memory for the array
-.skip MAX_LINE_NUM * 3 - 3
+.skip MAX_LINE_NUM * 12 - 12
