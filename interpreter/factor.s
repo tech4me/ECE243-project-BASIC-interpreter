@@ -19,6 +19,16 @@ movi r5, LEFTPAREN_TOKEN
 beq r4, r5, LEFTPAREN
 movi r5, VARIABLE_TOKEN
 beq r4, r5, VARIABLE
+movi r5, SW_ADDR_TOKEN
+beq r4, r5, SW
+movi r5, GPIO0_ADDR_TOKEN
+beq r4, r5, GPIO0
+movi r5, LED_ADDR_TOKEN
+beq r4, r5, LED
+movi r5, TIMER_ADDR_TOKEN
+beq r4, r5, TIMER
+movi r5, UART_ADDR_TOKEN
+beq r4, r5, UART
 mov r2, r0
 br factor_end
 
@@ -46,6 +56,36 @@ br factor_end
 
 VARIABLE:
 call variable_factor
+br factor_end
+
+SW:
+movi r4, SW_ADDR_TOKEN
+call accept_token
+movia r2, SW_ADDRESS
+br factor_end
+
+GPIO0:
+movi r4, GPIO0_ADDR_TOKEN
+call accept_token
+movia r2, GPIO0_ADDRESS
+br factor_end
+
+LED:
+movi r4, LED_ADDR_TOKEN
+call accept_token
+movia r2, LED_ADDRESS
+br factor_end
+
+TIMER:
+movi r4, TIMER_ADDR_TOKEN
+call accept_token
+movia r2, TIMER_ADDRESS
+br factor_end
+
+UART:
+movi r4, UART_ADDR_TOKEN
+call accept_token
+movia r2, UART_ADDRESS
 br factor_end
 
 ERROR:
